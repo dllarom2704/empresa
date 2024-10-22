@@ -11,10 +11,10 @@
 		<main>
 			<h1>Nóminas</h1>
 			<ul>
-				<li><a href="productos?opcion=listar">Listar empleados</a></li>
-				<li><a href="productos?opcion=buscarDni">Mostrar salario de
+				<li><a href="empleados?opcion=listar">Listar empleados</a></li>
+				<li><a href="empleados?opcion=buscarDni">Mostrar salario de
 						un empleado</a></li>
-				<li><a href="productos?opcion=buscarDato">Editar datos de un
+				<li><a href="empleados?opcion=buscarDato">Editar datos de un
 						empleado</a></li>
 			</ul>
 		</main>

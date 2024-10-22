@@ -8,26 +8,16 @@
 </head>
 <body>
 	<div id="container">
-		<header>
-			<h2>Nóminas</h2>
-			<nav>
-				<ul>
-					<li><a href="productos?opcion=index">Inicio</a></li>
-					<li><a href="productos?opcion=listar">Listar</a></li>
-					<li><a href="productos?opcion=editar">Editar</a></li>
-				</ul>
-			</nav>
-		</header>
 		<main>
 			<h1>Mostrar salrio de un empleado</h1>
-			<form action="productos" method="post">
+			<form action="empleados" method="post">
+				<input type="hidden" name="opcion" value="buscarDni">
 				<fieldset>
 					<label for="dni">Introduce el DNI</label>
 					<input type="text" name="dni" id="dni">
 				</fieldset>
-				<button>Buscar</button>
+				<button type="submit">Buscar</button>
 			</form>
-			<h2>Salario</h2>
 		</main>
 	</div>
 </body>

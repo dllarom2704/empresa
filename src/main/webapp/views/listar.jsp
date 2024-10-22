@@ -8,26 +8,28 @@
 <title>Listar Productos</title>
 </head>
 <body>
-	<div>
-		<h1>Listar Productos</h1>
-		 <table>
-		  <tr>
-		   <td>Nombre</td>
-		   <td>Dni</td>
-		   <td>Sexo</td>
-		   <td>Categoría</td>
-		   <td>Años</td>
-		  </tr>
-		  <c:forEach var="producto" items="${lista}">
-		  <tr>
-		    <td><c:out value="${ producto.nombre}"></c:out></td>
-		    <td><c:out value="${ producto.dni}"></c:out></td>
-		    <td><c:out value="${ producto.sexo}"></c:out></td>
-		    <td><c:out value="${ producto.categoria}"></c:out></td>
-		    <td><c:out value="${ producto.anyos}"></c:out></td>
-		  </tr>
-		  </c:forEach>
-		 </table>
+	<div id="container">
+		<main>
+			<h1>Listar Productos</h1>
+			<table>
+				<tr>
+					<td>Nombre</td>
+					<td>Dni</td>
+					<td>Sexo</td>
+					<td>Categoría</td>
+					<td>Años</td>
+				</tr>
+				<c:forEach var="empleado" items="${lista}">
+					<tr>
+						<td><c:out value="${ empleado.nombre}"></c:out></td>
+						<td><c:out value="${ empleado.dni}"></c:out></td>
+						<td><c:out value="${ empleado.sexo}"></c:out></td>
+						<td><c:out value="${ empleado.categoria}"></c:out></td>
+						<td><c:out value="${ empleado.anyos}"></c:out></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</main>
 	</div>
 </body>
 </html>

@@ -8,23 +8,15 @@
 </head>
 <body>
 	<div id="container">
-		<header>
-			<h2>Nóminas</h2>
-			<nav>
-				<ul>
-					<li><a href="productos?opcion=index">Inicio</a></li>
-					<li><a href="productos?opcion=listar">Listar</a></li>
-					<li><a href="productos?opcion=editar">Editar</a></li>
-				</ul>
-			</nav>
-		</header>
 		<main>
-			<form action="#">
+			<h1>Buscar a un empleado por cualquiera de sus datos</h1>
+			<form action="empleados" method="post">
+				<input type="hidden" name="opcion" value="buscarDato">
 				<fieldset>
-					<label for="dato">Introduce cualquier dato de un empleado</label>
-					<input type="text" name="dato" id="dato">
+					<label for="datum">Introduce cualquier dato de un empleado</label>
+					<input type="text" name="datum" id="datum">
 				</fieldset>
-				<button>Buscar</button>
+				<button type="submit">Buscar</button>
 			</form>
 		</main>
 	</div>
