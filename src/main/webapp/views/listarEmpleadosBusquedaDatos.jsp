@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Listar Productos</title>
+<title>Listar Empleados</title>
 <link rel="stylesheet" href="./assets/styles/style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
 		<p class="btn"><a href="empleados?opcion=volver">Volver</a></p>
 		<main>
 			<div>
-				<h1>Listar Productos</h1>
+				<h1>Listar Empleados</h1>
 				<table>
 					<tr>
 						<th>Nombre</th>

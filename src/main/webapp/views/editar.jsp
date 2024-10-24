@@ -19,7 +19,7 @@
 				<form action="empleados" method="post">
 					<c:set var="empleado" value="${empleado}"></c:set>
 					<input type="hidden" name="opcion" value="editar"> <input
-						type="hidden" name="dni" value="${empleado.dni}">
+						type="hidden" name="dniEmpleadoBuscado" value="${empleado.dni}">
 					<fieldset>
 						<label for="nombre">Nuevo Nombre</label> <input type="text"
 							name="nombre" id="nombre" value="${ empleado.nombre}">

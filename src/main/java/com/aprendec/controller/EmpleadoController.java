@@ -153,10 +153,12 @@ public class EmpleadoController extends HttpServlet {
 			empleado.setDni(request.getParameter("dni"));
 			empleado.setSexo(request.getParameter("sexo").charAt(0));
 			empleado.setCategoria(Integer.parseInt(request.getParameter("categoria")));
-			empleado.setCategoria(Integer.parseInt(request.getParameter("anyos")));
+			empleado.setAnyos(Integer.parseInt(request.getParameter("anyos")));
+
+			String dniEmpleadoBuscado = request.getParameter("dniEmpleadoBuscado");
 
 			try {
-				empleadoDAO.editar(empleado);
+				empleadoDAO.editar(empleado, dniEmpleadoBuscado);
 				System.out.println("Registro editado satisfactoriamente...");
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/buscarDato.jsp");
 				requestDispatcher.forward(request, response);

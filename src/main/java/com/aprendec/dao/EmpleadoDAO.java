@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.aprendec.conexion.Conexion;
 import com.aprendec.model.Empleado;
+import com.aprendec.model.Nomina;
 
 public class EmpleadoDAO {
 	private static Connection connection;
@@ -147,23 +148,40 @@ public class EmpleadoDAO {
 		return e;
 	}
 
-	public boolean editar(Empleado empleado) throws SQLException {
+	public boolean editar(Empleado empleado, String dniEmpleadoBuscado) throws SQLException {
 		String sql = null;
 		estadoOperacion = false;
 		connection = obtenerConexion();
 		try {
 			connection.setAutoCommit(false);
+
+			sql = "DELETE FROM nominas WHERE dni = ?";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, dniEmpleadoBuscado);
+			statement.executeUpdate();
+
 			sql = "UPDATE empleados SET nombre = ?, dni = ?, sexo = ?, categoria = ?, anyos = ? WHERE dni = ?";
 			statement = connection.prepareStatement(sql);
 
 			statement.setString(1, empleado.getNombre());
-			statement.setString(2, empleado.getDni());
-			statement.setLong(3, empleado.getSexo());
+			String newDni = empleado.getDni();
+			statement.setString(2, newDni);
+			statement.setObject(3, empleado.getSexo(), java.sql.Types.CHAR);
 			statement.setInt(4, empleado.getCategoria());
 			statement.setInt(5, empleado.getAnyos());
-			statement.setString(6, empleado.getDni());
+			statement.setString(6, dniEmpleadoBuscado);
 
 			estadoOperacion = statement.executeUpdate() > 0;
+
+			sql = "INSERT INTO nominas (dni, sueldo) VALUES (?, ?)";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, newDni);
+			Nomina nomina = new Nomina();
+			Integer sueldo = nomina.sueldo(empleado);
+			statement.setInt(2, sueldo);
+
+			statement.executeUpdate();
+
 			connection.commit();
 			statement.close();
 			connection.close();
