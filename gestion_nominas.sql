@@ -31,6 +31,8 @@
 
 CREATE DATABASE gestion_nominas;
 
+USE gestion_nominas;
+
 DROP TABLE IF EXISTS `empleados`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */
 ;
