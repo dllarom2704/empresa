@@ -4,19 +4,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Nóminas</title>
+<title>Empresa</title>
+<link rel="stylesheet" href="./assets/styles/style.css">
 </head>
 <body>
 	<div id="container">
 		<main>
-			<h1>Nóminas</h1>
-			<ul>
-				<li><a href="empleados?opcion=listar">Listar empleados</a></li>
-				<li><a href="empleados?opcion=buscarDni">Mostrar salario de
-						un empleado</a></li>
-				<li><a href="empleados?opcion=buscarDato">Editar datos de un
-						empleado</a></li>
-			</ul>
+			<div>
+				<h1>Empresa</h1>
+				<nav>
+					<ul>
+						<li><a href="empleados?opcion=listar">Listar empleados</a></li>
+						<li><a href="empleados?opcion=buscarDni">Mostrar salario</a></li>
+						<li><a href="empleados?opcion=buscarDato">Editar datos</a></li>
+					</ul>
+				</nav>
+			</div>
 		</main>
 	</div>
 </body>

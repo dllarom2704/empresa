@@ -22,13 +22,14 @@
 						<th>Categoría</th>
 						<th>Años</th>
 					</tr>
-					<c:forEach var="empleado" items="${lista}">
+					<c:forEach var="empleado" items="${listaEmpleados}">
 						<tr>
 							<td><c:out value="${ empleado.nombre}"></c:out></td>
 							<td><c:out value="${ empleado.dni}"></c:out></td>
 							<td><c:out value="${ empleado.sexo}"></c:out></td>
 							<td><c:out value="${ empleado.categoria}"></c:out></td>
 							<td><c:out value="${ empleado.anyos}"></c:out></td>
+							<td><a href="empleados?opcion=editar&dni=<c:out value="${ empleado.dni}"></c:out>">Editar</a></td>
 						</tr>
 					</c:forEach>
 				</table>

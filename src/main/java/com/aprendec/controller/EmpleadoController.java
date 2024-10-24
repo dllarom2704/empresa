@@ -70,6 +70,26 @@ public class EmpleadoController extends HttpServlet {
 		} else if (opcion.equals("buscarDato")) {
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/buscarDato.jsp");
 			requestDispatcher.forward(request, response);
+		} else if (opcion.equals("editar")) {
+			String dni = request.getParameter("dni");
+			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
+			Empleado empleado = new Empleado();
+
+			try {
+				empleado = empleadoDAO.obtenerEmpleado(dni);
+
+				System.out.println(empleado);
+
+				request.setAttribute("empleado", empleado);
+
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editar.jsp");
+				requestDispatcher.forward(request, response);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else if (opcion.equals("volver")) {
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher("index.jsp");
+			requestDispatcher.forward(request, response);
 		}
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
@@ -105,35 +125,48 @@ public class EmpleadoController extends HttpServlet {
 			Empleado empleado = new Empleado();
 			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 
-			request.getParameter("datum");
+			String datum = request.getParameter("datum");
+			List<Empleado> empleados = null;
+			try {
+				empleados = empleadoDAO.getEmpleadoData(datum);
+				request.setAttribute("listaEmpleados", empleados);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			for (int i = 0; i < empleados.size(); i++) {
+				empleados.get(i).imprime();
+			}
 
 			System.out.println("Búsqueda realizada");
 
-			RequestDispatcher requestDispacher = request.getRequestDispatcher("/views/editar.jsp");
+			RequestDispatcher requestDispacher = request
+					.getRequestDispatcher("/views/listarEmpleadosBusquedaDatos.jsp");
 			requestDispacher.forward(request, response);
 
-//		} else if (opcion.equals("editar")) {
-//			Producto producto = new Producto();
-//			ProductoDAO productoDAO = new ProductoDAO();
-//
-//			producto.setId(Integer.parseInt(request.getParameter("id")));
-//			producto.setNombre(request.getParameter("nombre"));
-//			producto.setCantidad(Double.parseDouble(request.getParameter("cantidad")));
-//			producto.setPrecio(Double.parseDouble(request.getParameter("precio")));
-//			producto.setFechaActualizar(new java.sql.Date(fechaActual.getTime()));
-//			try {
-//				productoDAO.editar(producto);
-//				System.out.println("Registro editado satisfactoriamente...");
-//				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-//				requestDispatcher.forward(request, response);
-//			} catch (SQLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+		} else if (opcion.equals("editar")) {
+			Empleado empleado = new Empleado();
+			EmpleadoDAO empleadoDAO = new EmpleadoDAO();
 
-//			doGet(request, response);
+			empleado.setNombre(request.getParameter("nombre"));
+			empleado.setDni(request.getParameter("dni"));
+			empleado.setSexo(request.getParameter("sexo").charAt(0));
+			empleado.setCategoria(Integer.parseInt(request.getParameter("categoria")));
+			empleado.setCategoria(Integer.parseInt(request.getParameter("anyos")));
+
+			try {
+				empleadoDAO.editar(empleado);
+				System.out.println("Registro editado satisfactoriamente...");
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/buscarDato.jsp");
+				requestDispatcher.forward(request, response);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
+//			doGet(request, response);
 	}
+
 }

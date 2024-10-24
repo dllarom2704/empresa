@@ -27,7 +27,7 @@ public class EmpleadoDAO {
 		try {
 			sql = "SELECT * FROM empleados";
 			statement = connection.prepareStatement(sql);
-			resultSet = statement.executeQuery(sql);
+			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				Empleado e = new Empleado();
 				e.setNombre(resultSet.getString(1));
@@ -56,8 +56,9 @@ public class EmpleadoDAO {
 		String salario = null;
 
 		try {
-			sql = "SELECT sueldo FROM nominas WHERE dni = '" + dni + "'";
+			sql = "SELECT sueldo FROM nominas WHERE dni = ?";
 			statement = connection.prepareStatement(sql);
+			statement.setString(1, dni);
 			resultSet = statement.executeQuery();
 
 			if (resultSet.next()) {
@@ -72,7 +73,7 @@ public class EmpleadoDAO {
 
 	}
 
-	public static void getEmpleadoData(String datum) throws SQLException {
+	public static List<Empleado> getEmpleadoData(String datum) throws SQLException {
 		ResultSet resultSet = null;
 
 		String sql = null;
@@ -81,13 +82,24 @@ public class EmpleadoDAO {
 		List<Empleado> empleados = new ArrayList<>();
 
 		try {
-			sql = "SELECT * FROM empleados WHERE nombre = '" + datum + "' OR dni = '" + datum + "' OR sexo = '"
-					+ datum.charAt(0) + "' OR categoria = " + Integer.parseInt(datum) + " OR anyos = "
-					+ Integer.parseInt(datum);
-			statement = connection.prepareStatement(sql);
-			resultSet = statement.executeQuery();
+			try {
+				sql = "SELECT * FROM empleados WHERE nombre LIKE ? OR dni LIKE ? OR sexo = ? OR categoria = ? OR anyos = ?";
+				statement = connection.prepareStatement(sql);
+				statement.setString(1, "%" + datum + "%");
+				statement.setString(2, "%" + datum + "%");
+				statement.setString(3, String.valueOf(datum.charAt(0)));
+				statement.setInt(4, Integer.parseInt(datum));
+				statement.setInt(5, Integer.parseInt(datum));
+				resultSet = statement.executeQuery();
+			} catch (NumberFormatException e) {
+				sql = "SELECT * FROM empleados WHERE nombre LIKE ? OR dni LIKE ? OR sexo = ?";
+				statement = connection.prepareStatement(sql);
+				statement.setString(1, "%" + datum + "%");
+				statement.setString(2, "%" + datum + "%");
+				statement.setString(3, String.valueOf(datum.charAt(0)));
+				resultSet = statement.executeQuery();
+			}
 
-			System.out.println(resultSet);
 			while (resultSet.next()) {
 				Empleado e = new Empleado();
 				e.setNombre(resultSet.getString("nombre"));
@@ -98,11 +110,70 @@ public class EmpleadoDAO {
 				empleados.add(e);
 			}
 
-			System.out.println(empleados);
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		return empleados;
+	}
+
+	public Empleado obtenerEmpleado(String dni) throws SQLException {
+		ResultSet resultSet = null;
+		Empleado e = new Empleado();
+
+		String sql = null;
+		estadoOperacion = false;
+		connection = obtenerConexion();
+
+		try {
+			sql = "SELECT * FROM empleados WHERE dni = ?";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, dni);
+
+			resultSet = statement.executeQuery();
+
+			if (resultSet.next()) {
+				e.setNombre(resultSet.getString(1));
+				e.setDni(resultSet.getString(2));
+				e.setSexo(resultSet.getString(3).charAt(0));
+				e.setCategoria(resultSet.getInt(4));
+				e.setAnyos(resultSet.getInt(5));
+			}
+
+		} catch (SQLException error) {
+			error.printStackTrace();
+		}
+
+		return e;
+	}
+
+	public boolean editar(Empleado empleado) throws SQLException {
+		String sql = null;
+		estadoOperacion = false;
+		connection = obtenerConexion();
+		try {
+			connection.setAutoCommit(false);
+			sql = "UPDATE empleados SET nombre = ?, dni = ?, sexo = ?, categoria = ?, anyos = ? WHERE dni = ?";
+			statement = connection.prepareStatement(sql);
+
+			statement.setString(1, empleado.getNombre());
+			statement.setString(2, empleado.getDni());
+			statement.setLong(3, empleado.getSexo());
+			statement.setInt(4, empleado.getCategoria());
+			statement.setInt(5, empleado.getAnyos());
+			statement.setString(6, empleado.getDni());
+
+			estadoOperacion = statement.executeUpdate() > 0;
+			connection.commit();
+			statement.close();
+			connection.close();
+
+		} catch (SQLException e) {
+			connection.rollback();
+			e.printStackTrace();
+		}
+
+		return estadoOperacion;
 	}
 
 	// obtener conexion pool
